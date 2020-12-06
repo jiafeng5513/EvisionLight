@@ -1,0 +1,11 @@
+[submodule "third-party/glfw"]
+	path = third-party/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "third-party/imgui"]
+	path = third-party/imgui
+	url = https://github.com.cnpmjs.org/ocornut/imgui.git
+	branch = docking
+[submodule "third-party/nativefiledialog"]
+	path = third-party/nativefiledialog
+	url = https://github.com.cnpmjs.org/mlabbe/nativefiledialog.git
+	branch = master
