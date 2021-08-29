@@ -5,7 +5,8 @@ project(EvisionLight)
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 # 重命名CMake items 筛选器的名字,默认名为:CMakePredefinedTargets
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "_CMakeTargets")
-
+# C++
+set(CMAKE_CXX_STANDARD 17)
 # Find OpenCV
 find_package(OpenCV REQUIRED)
 message(STATUS "OpenCV library status:")
@@ -13,9 +14,15 @@ message(STATUS "version: ${OpenCV_VERSION}")
 message(STATUS "libraries: ${OpenCV_LIBS}")
 message(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
 
-# Find boost
+# Find boost 
 FIND_PACKAGE(Boost REQUIRED COMPONENTS system thread filesystem regex)
-
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+    
+    MESSAGE( STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}.")
+    MESSAGE( STATUS "Boost_LIBRARIES = ${Boost_LIBRARIES}.")
+    MESSAGE( STATUS "Boost_LIB_VERSION = ${Boost_LIB_VERSION}.")
+endif()
 
 # find opengl
 find_package(OpenGL)
@@ -46,6 +53,7 @@ set(fdialog_FOLDER_PATH ${PROJECT_SOURCE_DIR}/../third-party/nativefiledialog)
 # imgui : 源文件引用
 # nativefiledialog : 源文件引用
 add_subdirectory(EvisionSandbox)
+add_subdirectory(Kalibra)
 add_subdirectory(${glfw_FOLDER_PATH} glfw.out)
 add_subdirectory(${zlib_FOLDER_PATH} zlib.out)
 

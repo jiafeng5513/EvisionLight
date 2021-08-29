@@ -199,7 +199,7 @@ public:
         ImGui_ImplOpenGL3_Init(glsl_version);
         // Load Fonts
         //io.Fonts->AddFontFromFileTTF("fonts/a_FuturaOrto.TTF", 20, NULL, io.Fonts->GetGlyphRangesCyrillic());
-        io.Fonts->AddFontFromFileTTF("E:/VisualStudio/imgui_opencv_template/fonts/SourceHanSans.ttc",
+        io.Fonts->AddFontFromFileTTF("F:/VisualStudio/EvisionLight/fonts/SourceHanSans.ttc",
             22.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
     }
 
@@ -318,7 +318,7 @@ public:
             });
         worker_.Register < MainWindowObservers::OnWorkerEvent >([this](void)
             {
-                OnWorker();
+                OnShowImage();
             });
         worker_.Register < MainWindowObservers::OnButtonPressEvent >([this](std::string button_name)
             {
@@ -356,7 +356,7 @@ private:
         std::cout << "On close event." << std::endl;
     }
 
-    void OnWorker()
+    void OnShowImage()
     {
         if (cap.isOpened())
         {
