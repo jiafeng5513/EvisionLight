@@ -4,30 +4,15 @@
 <div align=center></div>
 <div align=center>如果您觉得有帮助,请为该项目点star.以便于及时收到最新更新.</div>
 
-## 重要提示:目前没有具体功能,未来Evision会迁移到此版本
+*本项目致力于构建一个轻量化,图形化,高效率的机器视觉Demo,目的是为机器视觉初学者提供一份良好的入门参考代码.*
 
-### Introduction:
-=========
-1. Evision的轻量化版本.<br>
-2. 界面基于IMGUI.<br>
-3. 更完美的跨平台和编译体验.<br>
-4. 效率提升.<br>
-5. 可扩展的框架,便于理解和添加功能.<br>
-6. 前后端分离,便于只需要算法的朋友浏览代码,UI逻辑不入侵算法.<br>
+### 项目规约
+   1. ui采用PySide2-Widget模式编写,界面定义使用ui文件.
+   2. 界面逻辑使用python编写.
+   3. 有性能要求的算法使用C++实现,输出动态链接库.
 
-### third-party
-1. glfw(submodule)
-2. imgui(submodule)
-3. nativefiledialog(submodule)
-4. zlib
+### 问题记录 
 
-### Dependencies
-1. [OpenCV](https://github.com/opencv/opencv)
-2. [boost](https://sourceforge.net/projects/boost/files/boost-binaries/)
-
-### Github Mirror Station
-https://github.com.cnpmjs.org/
-
-### ttc fonts file
-使用思源开源字体库,[SourceHanSans](https://github.com/adobe-fonts/source-han-sans/)
-目前需自行下载SourceHanSans.ttc文件
+### references
+1. [gitignore模板](https://github.com/github/gitignore).
+2. [This application failed to start because no Qt platform plugin could be initialized](https://blog.csdn.net/zouxin_88/article/details/106052228)
