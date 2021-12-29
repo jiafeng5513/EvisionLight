@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="sandbox">
+    <file>resources/CloudViewer.ico</file>
+    <file>resources/Heatmap.ico</file>
+    <file>resources/Parallax.ico</file>
+    <file>resources/camera.ico</file>
+    <file>resources/MonoKaliba.ico</file>
+    <file>resources/StereoKaliba.ico</file>
+    <file>resources/Evision.ico</file>
+  </qresource>
+</RCC>

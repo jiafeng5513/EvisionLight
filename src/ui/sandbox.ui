@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>728</width>
-     <height>23</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -89,8 +89,8 @@
   </widget>
   <action name="actionCamera">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/camera.ico</normaloff>:/sandbox/camera.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/camera.ico</normaloff>:/sandbox/resources/camera.ico</iconset>
    </property>
    <property name="text">
     <string>Camera</string>
@@ -98,8 +98,8 @@
   </action>
   <action name="actionMono_kaliba">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/MonoKaliba.ico</normaloff>:/sandbox/MonoKaliba.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/MonoKaliba.ico</normaloff>:/sandbox/resources/MonoKaliba.ico</iconset>
    </property>
    <property name="text">
     <string>Mono Kaliba</string>
@@ -107,8 +107,8 @@
   </action>
   <action name="actionStereo_kaliba">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/StereoKaliba.ico</normaloff>:/sandbox/StereoKaliba.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/StereoKaliba.ico</normaloff>:/sandbox/resources/StereoKaliba.ico</iconset>
    </property>
    <property name="text">
     <string>Stereo Kaliba</string>
@@ -116,8 +116,8 @@
   </action>
   <action name="actionParallax">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/Parallax.ico</normaloff>:/sandbox/Parallax.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/Parallax.ico</normaloff>:/sandbox/resources/Parallax.ico</iconset>
    </property>
    <property name="text">
     <string>Parallax</string>
@@ -125,8 +125,8 @@
   </action>
   <action name="actionDepth_map">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/Heatmap.ico</normaloff>:/sandbox/Heatmap.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/Heatmap.ico</normaloff>:/sandbox/resources/Heatmap.ico</iconset>
    </property>
    <property name="text">
     <string>Depth Map Tool</string>
@@ -134,8 +134,8 @@
   </action>
   <action name="actionPoint_Cloud_Viever">
    <property name="icon">
-    <iconset resource="../resources/resProxy.qrc">
-     <normaloff>:/sandbox/CloudViewer.ico</normaloff>:/sandbox/CloudViewer.ico</iconset>
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/CloudViewer.ico</normaloff>:/sandbox/resources/CloudViewer.ico</iconset>
    </property>
    <property name="text">
     <string>Point Cloud Viever</string>
@@ -148,7 +148,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../resources/resProxy.qrc"/>
+  <include location="ui.resProxy.qrc"/>
  </resources>
  <connections>
   <connection>

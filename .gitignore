@@ -189,3 +189,6 @@ src/out
 .idea
 data/Tracker/test_reg
 *.ttc
+*.pyc
+*_ui.py
+*_rc.py

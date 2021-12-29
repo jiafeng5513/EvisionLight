@@ -1,5 +1,5 @@
 from PySide2.QtWidgets import QWidget
-from src.ui.camera import Ui_Form
+from ui.camera_ui import Ui_Form
 
 
 class Camera(QWidget):
