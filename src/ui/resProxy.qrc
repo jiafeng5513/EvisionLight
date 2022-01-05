@@ -7,5 +7,7 @@
     <file>resources/MonoKaliba.ico</file>
     <file>resources/StereoKaliba.ico</file>
     <file>resources/Evision.ico</file>
+    <file>resources/Settings.ico</file>
+    <file>resources/About.ico</file>
   </qresource>
 </RCC>

@@ -28,3 +28,4 @@
 2. [清华大学开源镜像站: pypi源](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)
 3. [清华大学开源镜像站: Anaconda源](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
 4. [bug fix: This application failed to start because no Qt platform plugin could be initialized](https://blog.csdn.net/zouxin_88/article/details/106052228)
+5. [doskey不是内部或外部命令](https://blog.51cto.com/u_13539934/2051658)

@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import glob
 import os
 import subprocess
@@ -11,12 +12,15 @@ if __name__ == '__main__':
         plugin_path = os.path.join(dirname, 'plugins', 'platforms')
         uic_exe_path = os.path.join(dirname, 'uic.exe')
         rcc_exe_path = os.path.join(dirname, 'rcc.exe')
+        envs = {'QT_QPA_PLATFORM_PLUGIN_PATH': plugin_path, 'PATH': r"C:\windows\system32"}
     elif current_platform == 'linux':
         plugin_path = os.path.join(dirname, 'Qt', 'plugins', 'platforms')
         uic_exe_path = os.path.join(dirname, 'uic')
         rcc_exe_path = os.path.join(dirname, 'rcc')
+        envs = {'QT_QPA_PLATFORM_PLUGIN_PATH': plugin_path}
     else:
-        raise RuntimeError("EvisionLight Now only support win32 and linux, but try to start on {}.".format(current_platform))
+        raise RuntimeError(
+            "EvisionLight Now only support win32 and linux, but try to start on {}.".format(current_platform))
 
     print("start on {}".format(current_platform))
     print("PySide2 plugin path = {}".format(plugin_path))
@@ -37,7 +41,7 @@ if __name__ == '__main__':
     for ui_file in ui_files:
         ui_py_filename = ui_file.replace('.ui', '_ui.py')
         subprocess.call("{} {} -o {} -g python".format(uic_exe_path, ui_file, ui_py_filename),
-                        env={'QT_QPA_PLATFORM_PLUGIN_PATH': plugin_path}, shell=True)
+                        env=envs, shell=True)
 
     # convert *.qrc files to *_rc.py with rcc
     print('resources path = {}'.format(resources_path))
@@ -45,4 +49,4 @@ if __name__ == '__main__':
     for qrc_file in qrc_files:
         rc_py_filename = qrc_file.replace('.qrc', '_rc.py')
         subprocess.call("{} {} -o {} -g python".format(rcc_exe_path, qrc_file, rc_py_filename),
-                        env={'QT_QPA_PLATFORM_PLUGIN_PATH': plugin_path}, shell=True)
+                        env=envs, shell=True)

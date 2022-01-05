@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>728</width>
-     <height>28</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -61,6 +61,7 @@
     <property name="title">
      <string>Setting</string>
     </property>
+    <addaction name="actionPreference"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -86,6 +87,10 @@
    <addaction name="actionDepth_map"/>
    <addaction name="separator"/>
    <addaction name="actionPoint_Cloud_Viever"/>
+   <addaction name="separator"/>
+   <addaction name="actionPreference"/>
+   <addaction name="separator"/>
+   <addaction name="actionAbout"/>
   </widget>
   <action name="actionCamera">
    <property name="icon">
@@ -142,8 +147,21 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/About.ico</normaloff>:/sandbox/resources/About.ico</iconset>
+   </property>
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionPreference">
+   <property name="icon">
+    <iconset resource="resProxy.qrc">
+     <normaloff>:/sandbox/resources/Settings.ico</normaloff>:/sandbox/resources/Settings.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Preference</string>
    </property>
   </action>
  </widget>
