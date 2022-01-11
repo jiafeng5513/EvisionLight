@@ -1,7 +1,7 @@
 from PySide2.QtCore import Slot
 from PySide2.QtMultimedia import QCameraInfo, QCamera, QCameraImageCapture
 from PySide2.QtWidgets import QWidget
-from ui.camera_ui import Ui_Form
+from front.ui.camera_ui import Ui_Form
 
 
 class Camera(QWidget):

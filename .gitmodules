@@ -9,3 +9,6 @@
 	path = third-party/nativefiledialog
 	url = https://github.com.cnpmjs.org/mlabbe/nativefiledialog.git
 	branch = master
+[submodule "src/3rd/spdlog"]
+	path = src/3rd/spdlog
+	url = https://github.com/gabime/spdlog.git

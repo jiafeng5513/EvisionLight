@@ -192,3 +192,5 @@ data/Tracker/test_reg
 *.pyc
 *_ui.py
 *_rc.py
+install
+cmake-build

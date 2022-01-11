@@ -1,7 +1,7 @@
 from PySide2.QtCore import Slot
 from PySide2.QtWidgets import QMainWindow
-from ui.sandbox_ui import Ui_MainWindow
-from uiController.camera_ctl import Camera
+from front.ui.sandbox_ui import Ui_MainWindow
+from front.uiController.camera_ctl import Camera
 
 
 class SandBox(QMainWindow):

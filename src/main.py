@@ -1,12 +1,10 @@
-import glob
 import os
-import subprocess
 import sys
 import PySide2
 
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QApplication
-from uiController.sandbox_ctl import SandBox
+from front.uiController.sandbox_ctl import SandBox
 
 if __name__ == '__main__':
     dirname = os.path.dirname(PySide2.__file__)
@@ -23,7 +21,7 @@ if __name__ == '__main__':
 
     # start main procedure
     app = QApplication([])
-    app.setWindowIcon(QIcon("ui/resources/Evision.ico"))  # 添加图标
+    app.setWindowIcon(QIcon("front/ui/resources/Evision.ico"))  # 添加图标
     sandbox = SandBox()
     sandbox.show()
     app.exec_()
