@@ -13,3 +13,6 @@ set(SPDLOG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rd/spdlog")
 
 add_subdirectory(3rd/spdlog)
 add_subdirectory(backend/log)
+
+add_custom_target(EvisionLight)
+add_dependencies(EvisionLight EvisionLog)
