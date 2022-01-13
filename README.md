@@ -22,6 +22,8 @@
 2. `python3 main.py` to start sandbox.
 
 ### Bugs
+1. 在windows平台上加载dll可能会遇到一些问题,注意dll必须是amd64架构的,使用功能clion的开发者在配置工具链时要注意.
+2. 目前windows平台上的log会使用gbk编码.可能在某些情况下你会看到log文件中的内容是乱码,只需要按照gbk编码打开即可.
 
 ### References
 1. [gitignore模板](https://github.com/github/gitignore).
