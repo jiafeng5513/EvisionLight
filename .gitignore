@@ -194,3 +194,4 @@ data/Tracker/test_reg
 *_rc.py
 install
 cmake-build
+.pytest_cache
