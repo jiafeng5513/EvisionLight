@@ -6,6 +6,9 @@ from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QApplication
 from EvisionSandbox.sandbox_ctl import SandBox
 
+root_path = os.path.dirname(__file__)
+sys.path.append(root_path)
+
 if __name__ == '__main__':
     repo_path = os.path.dirname(os.path.abspath(__file__))
 

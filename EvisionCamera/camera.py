@@ -5,8 +5,8 @@
 import sys
 from abc import ABCMeta, abstractmethod
 import cv2
-from v4l import V4L2
-from util import WindowsUtil
+from EvisionCamera.v4l import V4L2
+from EvisionCamera.util import WindowsUtil
 
 
 #class Camera(metaclass=ABCMeta):

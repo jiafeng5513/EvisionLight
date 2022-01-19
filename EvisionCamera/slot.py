@@ -13,7 +13,7 @@ from PySide2.QtWidgets import (
 from PySide2.QtGui import QIcon, QFont, QPixmap, QImage, QBitmap, QTextDocument
 from PySide2.QtCore import Qt, QTimer, QTextStream, QFile, QSize
 
-from text import MessageText
+from EvisionCamera.text import MessageText
 
 
 class Slot():

@@ -5,7 +5,7 @@ import re
 import platform
 import cv2
 
-from v4l import V4L2
+from EvisionCamera.v4l import V4L2
 
 
 class Utility():

@@ -1,15 +1,20 @@
 import re
 from pathlib import Path
+import sys
 
 from PIL import Image
 from PySide2.QtCore import Qt, QTimer
+from PySide2.QtGui import QImage, QPixmap
 from PySide2.QtWidgets import QWidget, QGraphicsView, QGraphicsScene, \
     QAbstractScrollArea, QStatusBar, QGridLayout, QAbstractItemView, \
     QTableWidgetItem, QSizePolicy, QFileDialog
 
+from EvisionCamera.camera import LinuxCamera, WindowsCamera
 from EvisionCamera.fileIO import FileIO
 from EvisionCamera.slot import Slot
-from EvisionCamera_ui import Ui_EvisionCameraForm
+from EvisionCamera.EvisionCamera_ui import Ui_EvisionCameraForm
+from EvisionCamera.util import Utility
+import numpy as np
 
 
 class EvisionCamera(QWidget):
@@ -19,7 +24,7 @@ class EvisionCamera(QWidget):
         self.ui.setupUi(self)
         self.device = 0
         self.camtype = "usb_cam"
-        self.colorspace = "RGB"
+        self.colorspace = "rgb"
         self.image_suffix = "png"
         self.video_codec = "AVC1"
         self.video_suffix = "avi"
@@ -50,6 +55,26 @@ class EvisionCamera(QWidget):
         self.setup()
         self.set_timer()
 
+    def get_cam(self):
+        """Return camera object according to current OS.
+
+        Detects what OS you are using, return camera objects  in order to function properly.
+
+            - Linux: LinuxCamera
+            - RaspberryPi OS: RaspiCamera
+            - Windows: WindowsCamera
+
+        Returns:
+            Camera class
+        """
+        self.system = sys.platform
+        if self.system == 'linux':
+            return LinuxCamera
+        elif self.system == 'win32':
+            return WindowsCamera
+        else:
+            return "Unknown type"
+
     def setup(self):
         """Setup the main window for displaying frame and widget.
 
@@ -62,10 +87,8 @@ class EvisionCamera(QWidget):
         self.view_setup()
         self.layout_setup()
         self.image_setup()
-        self.toolbar_setup()
         self.update_prop_table()
         self.adjust_windowsize()
-        self.set_theme()
 
     def set_timer(self):
         """Set QTimer
@@ -83,6 +106,44 @@ class EvisionCamera(QWidget):
         self.timer.setInterval(self.msec)
         self.timer.timeout.connect(self.next_frame)
         self.timer.start()
+
+    def next_frame(self):
+        """Get next frame from the connected camera.
+
+        Get next frame, set it to the view area and update.
+        """
+        #print("display :", self.is_display)
+        if self.is_display:
+            self.camera.read_frame()
+            self.convert_frame()
+            self.scene.clear()
+            self.scene.addPixmap(self.pixmap)
+            self.update()
+            #print("update")
+
+    def convert_frame(self):
+        """Convert the class of frame
+
+        Create qimage, qpixmap objects from ndarray frame for displaying on the window.
+
+        """
+        if self.colorspace == "rgb" or self.colorspace == "RGB":
+            self.qimage = QImage(
+                self.camera.frame.data,
+                self.camera.frame.shape[1],
+                self.camera.frame.shape[0],
+                self.camera.frame.shape[1] * 3,
+                QImage.Format_RGB888
+            )
+        elif self.colorspace == "gray":
+            self.qimage = QImage(
+                self.camera.frame.data,
+                self.camera.frame.shape[1],
+                self.camera.frame.shape[0],
+                self.camera.frame.shape[1] * 1,
+                QImage.Format_Grayscale8)
+
+        self.pixmap.convertFromImage(self.qimage)
 
     def stop_timer(self):
         """Deactivate the Qtimer object.
@@ -116,7 +177,7 @@ class EvisionCamera(QWidget):
     def layout_setup(self):
         """Set layout of objects on the window.
         """
-        self.add_statusbar()
+        # self.add_statusbar()
         self.add_buttons()
         self.add_prop_window()
 
@@ -150,22 +211,22 @@ class EvisionCamera(QWidget):
         first = True
         for stat in self.statbar_list:
             if first:
-                self.setStatusBar(stat)
+                # self.ssetStatusBar(stat)
                 self.statbar_list[0].reformat()
                 first = False
             else:
                 self.statbar_list[0].addPermanentWidget(stat)
 
     def add_buttons(self):
-        self.ui.save_button.connect(self.save_frame)
-        self.ui.stop_button.connect(self.stop_frame)
-        self.ui.rec_button.connect(self.record)
-        self.ui.close_button.connect(self.slot.quit)
-        self.ui.theme_button.connect(self.slot.switch_theme)
-        self.ui.help_button.connect(self.slot.usage)
-        self.ui.frame_button.connect(self.slot.change_frame_prop)
-        self.ui.default_button.connect(self.set_param_default)
-        self.ui.filerule_button.connect(self.slot.set_file_rule)
+        self.ui.save_button.clicked.connect(self.save_frame)
+        self.ui.stop_button.clicked.connect(self.stop_frame)
+        self.ui.rec_button.clicked.connect(self.record)
+        self.ui.close_button.clicked.connect(self.slot.quit)
+        self.ui.theme_button.clicked.connect(self.slot.switch_theme)
+        self.ui.help_button.clicked.connect(self.slot.usage)
+        self.ui.frame_button.clicked.connect(self.slot.change_frame_prop)
+        self.ui.default_button.clicked.connect(self.set_param_default)
+        self.ui.filerule_button.clicked.connect(self.slot.set_file_rule)
         pass
 
     def add_prop_window(self):
@@ -189,7 +250,7 @@ class EvisionCamera(QWidget):
         for row, content in enumerate(self.prop_table):
             for col, elem in enumerate(content):
                 self.item = QTableWidgetItem(elem)
-                self.prop_table_widget.setItem(row, col, self.item)
+                self.ui.prop_table_widget.setItem(row, col, self.item)
         self.ui.prop_table_widget.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         # self.prop_table_widget.resizeColumnsToContents()
         # self.prop_table_widget.resizeRowsToContents()
@@ -272,40 +333,6 @@ class EvisionCamera(QWidget):
         )
         self.pixmap = QPixmap.fromImage(self.qimage)
 
-    def toolbar_setup(self):
-        """Create toolbar
-        """
-        self.toolbar = QToolBar("test", self)
-        self.addToolBar(self.toolbar)
-
-        current_size = str(self.font().pointSize())
-        lst = [str(i) for i in range(6, 14)]
-        lst.extend([str(i) for i in range(14, 40, 2)])
-        index = lst.index(current_size)
-
-        self.fontsize_combo = QComboBox()
-        self.fontsize_combo.addItems(lst)
-        self.fontsize_combo.setCurrentIndex(index)
-        self.fontsize_combo.currentTextChanged.connect(self.slot.set_fontsize)
-        self.fontsize_label = QLabel("Font size")
-        self.fontsize_label.setFrameShape(QFrame.Box)
-
-        self.comb = QFontComboBox()
-
-        self.toolbar.addWidget(self.save_button)
-        self.toolbar.addWidget(self.stop_button)
-        self.toolbar.addWidget(self.rec_button)
-        self.toolbar.addWidget(self.close_button)
-        self.toolbar.addWidget(self.theme_button)
-        self.toolbar.addWidget(self.help_button)
-        self.toolbar.addWidget(self.fontsize_label)
-        self.toolbar.addWidget(self.fontsize_combo)
-        self.toolbar.setStyleSheet(
-            """
-            QToolBar {spacing:5px;}
-            """
-        )
-
     def update_prop_table(self):
         """Updates the table that shows the camera properties.
         """
@@ -321,7 +348,7 @@ class EvisionCamera(QWidget):
         col = 1
         for row in range(len(self.prop_table)):
             text = str(self.prop_table[row][col])
-            self.prop_table_widget.item(row, col).setText(text)
+            self.ui.prop_table_widget.item(row, col).setText(text)
 
     def adjust_windowsize(self):
         """Adjusts the main window size
@@ -334,14 +361,6 @@ class EvisionCamera(QWidget):
             self.resize(wscale * w, hscale * h)
         else:
             self.resize(800, 600)
-
-    def set_theme(self):
-        """Set color theme of the main window.
-        """
-        self.style_theme = "light"
-        self.style_theme_sheet = ":/{}.qss".format(self.style_theme)
-        self.slot.switch_theme()
-        self.set_font(self.camera.font_family, self.camera.font_size)
 
     def set_param_default(self):
         """Sets all paramters to default.
@@ -391,3 +410,14 @@ class EvisionCamera(QWidget):
             return True
         else:
             return False
+
+    def get_properties(self) -> list:
+        """Get the current camera properties.
+
+        Returns:
+            list: parameters. fourcc, width, height, fps.
+        """
+        tmp = []
+        for row in range(4):
+            tmp.append(self.prop_table[row][1])
+        return tmp
