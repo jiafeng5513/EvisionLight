@@ -12,14 +12,15 @@
 3. 有性能要求的算法使用C++实现,输出动态链接库.
 
 ### Requirements
-1. PyCharm, a free python IDE.
+1. Clion as IDE recommended, this project use both python and c++. 
 2. python3, We strongly recommend using Anaconda3 as your python env.
 3. pyside2, you can install it by `pip install pyside2`
 4. opencv-python, you can install it by `pip install opencv-python`
 
 ### Build
-1. `python3 init.py` to generate *_ui.py and *_rc.py from *.ui and *.qrc.
-2. `python3 main.py` to start sandbox.
+1. cmake and make the CMake Project to generate all dynamic link libraries code with c++. top cmake is the CMakeLists.txt in the root path of this repo.
+2. `python3 init.py` to generate *_ui.py and *_rc.py from *.ui and *.qrc.
+3. `python3 main.py` to start sandbox.
 
 ### Bugs
 1. 在windows平台上加载dll可能会遇到一些问题,注意dll必须是amd64架构的,使用功能clion的开发者在配置工具链时要注意.
@@ -31,3 +32,15 @@
 3. [清华大学开源镜像站: Anaconda源](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
 4. [bug fix: This application failed to start because no Qt platform plugin could be initialized](https://blog.csdn.net/zouxin_88/article/details/106052228)
 5. [doskey不是内部或外部命令](https://blog.51cto.com/u_13539934/2051658)
+
+### how to setup pyside2 external tools inside pycharm or clion IDE.
+1. pip show pyside2, 找到pyside2的安装位置,假设是`${PySide2_root}`.
+2. ide, File -> settings -> Tools -> External Tools.
+3. add:(如果在linux系统上,Program的名字不带exe后缀).
+
+|Name|Group|Program|Arguments|Working directory|Usage|
+|:--:|:--:|:--:|:--:|:--:|:--:|
+|designer new|PySide2|`${PySide2_root}/designer.exe`||`$FileDir$`|创建ui文件|
+|designer create|PySide2|`${PySide2_root}/designer.exe`|`$FilePath$`|`$FileDir$`|打开ui文件|
+|uic|PySide2|`${PySide2_root}/uic.exe`|`$FilePath$ -o $FileDir$/$FileNameWithoutAllExtensions$_ui.py -g python`|`$FileDir$`|把ui文件转换为python源码文件|
+|rcc|PySide2|`${PySide2_root}/rcc.exe`|`$FilePath$ -o $FileDir$/$FileNameWithoutAllExtensions$_rc.py -g python`|`$FileDir$`|把资源文件转换为python源码文件|
