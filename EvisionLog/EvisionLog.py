@@ -1,41 +1,6 @@
 import os
-import sys
-from ctypes import *
-
-current_platform = sys.platform
-evision_log_path = os.path.dirname(os.path.abspath(__file__))
-install_path = os.path.join(evision_log_path, "../install")
-if current_platform == 'win32':
-    if os.path.exists(os.path.join(install_path, 'EvisionLog.dll')):
-        EvisionLogLibrary = cdll.LoadLibrary(os.path.join(install_path, 'EvisionLog.dll'))
-    elif os.path.exists(os.path.join(install_path, 'libEvisionLog.dll')):
-        EvisionLogLibrary = CDLL(os.path.join(install_path, 'libEvisionLog.dll'), winmode=101)
-    else:
-        raise RuntimeError("can not find dynamic link library for EvisionLog!")
-    encoding = 'gbk'
-else:
-    EvisionLogLibrary = cdll.LoadLibrary(os.path.join(install_path, 'EvisionLog.so'))
-    encoding = 'utf8'
-
-_EvisionLogInit = EvisionLogLibrary.EvisionLogInit
-_EvisionConsoleLogInfo = EvisionLogLibrary.EvisionConsoleLogInfo
-_EvisionConsoleLogDebug = EvisionLogLibrary.EvisionConsoleLogDebug
-_EvisionConsoleLogWarning = EvisionLogLibrary.EvisionConsoleLogWarning
-_EvisionConsoleLogError = EvisionLogLibrary.EvisionConsoleLogError
-_EvisionFileLogInfo = EvisionLogLibrary.EvisionFileLogInfo
-_EvisionFileLogDebug = EvisionLogLibrary.EvisionFileLogDebug
-_EvisionFileLogWarning = EvisionLogLibrary.EvisionFileLogWarning
-_EvisionFileLogError = EvisionLogLibrary.EvisionFileLogError
-
-_EvisionLogInit.argtypes = [POINTER(c_char), c_int]
-_EvisionConsoleLogInfo.argtypes = [POINTER(c_char), c_int]
-_EvisionConsoleLogDebug.argtypes = [POINTER(c_char), c_int]
-_EvisionConsoleLogWarning.argtypes = [POINTER(c_char), c_int]
-_EvisionConsoleLogError.argtypes = [POINTER(c_char), c_int]
-_EvisionFileLogInfo.argtypes = [POINTER(c_char), c_int]
-_EvisionFileLogDebug.argtypes = [POINTER(c_char), c_int]
-_EvisionFileLogWarning.argtypes = [POINTER(c_char), c_int]
-_EvisionFileLogError.argtypes = [POINTER(c_char), c_int]
+import time
+import logging
 
 
 class EvisionLog(object):
@@ -43,17 +8,25 @@ class EvisionLog(object):
         pass
 
     @staticmethod
-    def convert_str(msg):
-        msg_bytes = bytes(msg, encoding)
-        bytes_length = len(msg_bytes)
-        msg_str = (c_char*bytes_length)(*msg_bytes)
-        cast(msg_str, POINTER(c_char))
-        return msg_str, bytes_length
-
-    @staticmethod
     def init_logger(log_path):
-        log_path_str, bytes_length = EvisionLog.convert_str(log_path)
-        _EvisionLogInit(log_path_str, bytes_length)
+        log_filename = os.path.join(log_path, "evision_" + time.strftime('%Y%m%d_%H%M%S', time.localtime()) + ".log")
+        logging_format = \
+            logging.Formatter(fmt="[%(levelname)-9s][%(asctime)s][%(filename)s, line %(lineno)s] %(message)s",
+                              datefmt="%Y/%m/%d %H:%M:%S")
+
+        console_logger = logging.getLogger("console")
+        console_logger.setLevel(logging.DEBUG)
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler.setFormatter(logging_format)
+        console_logger.addHandler(console_handler)
+
+        file_logger = logging.getLogger("file")
+        file_logger.setLevel(logging.DEBUG)
+        file_handler = logging.FileHandler(filename=log_filename, mode='a', encoding='utf-8')
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(logging_format)
+        file_logger.addHandler(file_handler)
         pass
 
     class Console(object):
@@ -62,26 +35,22 @@ class EvisionLog(object):
 
         @staticmethod
         def debug(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionConsoleLogDebug(msg_str, bytes_length)
+            logging.getLogger('console').debug(msg)
             pass
 
         @staticmethod
         def info(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionConsoleLogInfo(msg_str, bytes_length)
+            logging.getLogger('console').info(msg)
             pass
 
         @staticmethod
         def warning(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionConsoleLogWarning(msg_str, bytes_length)
+            logging.getLogger('console').warning(msg)
             pass
 
         @staticmethod
         def error(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionConsoleLogError(msg_str, bytes_length)
+            logging.getLogger('console').error(msg)
             pass
 
     class File(object):
@@ -90,26 +59,22 @@ class EvisionLog(object):
 
         @staticmethod
         def debug(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogDebug(msg_str, bytes_length)
+            logging.getLogger('file').debug(msg)
             pass
 
         @staticmethod
         def info(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogInfo(msg_str, bytes_length)
+            logging.getLogger('file').info(msg)
             pass
 
         @staticmethod
         def warning(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogWarning(msg_str, bytes_length)
+            logging.getLogger('file').warning(msg)
             pass
 
         @staticmethod
         def error(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogError(msg_str, bytes_length)
+            logging.getLogger('file').error(msg)
             pass
 
     class All(object):
@@ -118,37 +83,33 @@ class EvisionLog(object):
 
         @staticmethod
         def debug(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogDebug(msg_str, bytes_length)
-            _EvisionConsoleLogDebug(msg_str, bytes_length)
+            logging.getLogger('file').debug(msg)
+            logging.getLogger('console').debug(msg)
             pass
 
         @staticmethod
         def info(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogInfo(msg_str, bytes_length)
-            _EvisionConsoleLogInfo(msg_str, bytes_length)
+            logging.getLogger('file').info(msg)
+            logging.getLogger('console').info(msg)
             pass
 
         @staticmethod
         def warning(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogWarning(msg_str, bytes_length)
-            _EvisionConsoleLogWarning(msg_str, bytes_length)
+            logging.getLogger('file').warning(msg)
+            logging.getLogger('console').warning(msg)
             pass
 
         @staticmethod
         def error(msg):
-            msg_str, bytes_length = EvisionLog.convert_str(msg)
-            _EvisionFileLogError(msg_str, bytes_length)
-            _EvisionConsoleLogError(msg_str, bytes_length)
+            logging.getLogger('file').error(msg)
+            logging.getLogger('console').error(msg)
             pass
 
 
 # this is a test case
 if __name__ == '__main__':
-    EvisionLog.init_logger('D:/WorkSpace/EvisionLight')
-    EvisionLog.Console.debug("调试调试")
+    EvisionLog.init_logger('D:/WorkSpace/jiafeng_projects/EvisionLight')
+    EvisionLog.Console.debug(r"调试调试")
     EvisionLog.Console.info("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
     EvisionLog.Console.warning("调试信息")
     EvisionLog.Console.error("调试信息")
@@ -157,3 +118,4 @@ if __name__ == '__main__':
     EvisionLog.File.info("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
     EvisionLog.File.warning("调试信息")
     EvisionLog.File.error("调试信息")
+

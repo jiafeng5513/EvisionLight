@@ -33,6 +33,8 @@
 3. [清华大学开源镜像站: Anaconda源](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
 4. [bug fix: This application failed to start because no Qt platform plugin could be initialized](https://blog.csdn.net/zouxin_88/article/details/106052228)
 5. [doskey不是内部或外部命令](https://blog.51cto.com/u_13539934/2051658)
+6. [CLion输出自动换行的禁用](https://www.cnblogs.com/liux-pro/p/16933357.html)
+
 
 ### how to setup pyside2 external tools inside pycharm or clion IDE.
 1. pip show pyside2, 找到pyside2的安装位置,假设是`${PySide2_root}`.

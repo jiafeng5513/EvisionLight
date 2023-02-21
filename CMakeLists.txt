@@ -9,10 +9,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${INSTALL_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${INSTALL_DIR})
 
 
-set(SPDLOG_DIR "3rd/spdlog")
+#set(SPDLOG_DIR "3rd/spdlog")
 
-add_subdirectory(3rd/spdlog)
-add_subdirectory(EvisionLog)
+#add_subdirectory(3rd/spdlog)
+#add_subdirectory(EvisionLog)
 
 add_custom_target(EvisionLight)
-add_dependencies(EvisionLight EvisionLog)
+#add_dependencies(EvisionLight EvisionLog)

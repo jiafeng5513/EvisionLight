@@ -12,7 +12,9 @@ sys.path.append(root_path)
 if __name__ == '__main__':
     repo_path = os.path.dirname(os.path.abspath(__file__))
 
-    EvisionLog.init_logger('D:/WorkSpace/EvisionLight')
+    if not os.path.exists('./logs'):
+        os.makedirs('./logs')
+    EvisionLog.init_logger('./logs')
 
     dirname = os.path.dirname(PySide2.__file__)
     current_platform = sys.platform
@@ -22,7 +24,7 @@ if __name__ == '__main__':
         plugin_path = os.path.join(dirname, 'Qt', 'plugins', 'platforms')
     else:
         raise RuntimeError("EvisionLight Now only support win32 and linux, but try to start on {}.".format(current_platform))
-    EvisionLog.Console.info("start on {}".format(current_platform))
+    EvisionLog.All.info("start on {}".format(current_platform))
     # set up qt runtime env
     os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
