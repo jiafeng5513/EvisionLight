@@ -6,7 +6,12 @@ current_platform = sys.platform
 evision_log_path = os.path.dirname(os.path.abspath(__file__))
 install_path = os.path.join(evision_log_path, "../install")
 if current_platform == 'win32':
-    EvisionLogLibrary = cdll.LoadLibrary(os.path.join(install_path, 'EvisionLog.dll'))
+    if os.path.exists(os.path.join(install_path, 'EvisionLog.dll')):
+        EvisionLogLibrary = cdll.LoadLibrary(os.path.join(install_path, 'EvisionLog.dll'))
+    elif os.path.exists(os.path.join(install_path, 'libEvisionLog.dll')):
+        EvisionLogLibrary = CDLL(os.path.join(install_path, 'libEvisionLog.dll'), winmode=101)
+    else:
+        raise RuntimeError("can not find dynamic link library for EvisionLog!")
     encoding = 'gbk'
 else:
     EvisionLogLibrary = cdll.LoadLibrary(os.path.join(install_path, 'EvisionLog.so'))

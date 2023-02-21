@@ -16,12 +16,13 @@
 2. python3, We strongly recommend using Anaconda3 as your python env.
 3. pyside2, you can install it by `pip install pyside2`
 4. opencv-python, you can install it by `pip install opencv-python`
+5. If you choose to build this repo on windows, we strongly recommend using msvc rather than MinGW as compiler.
 
 ### Build
 1. cmake and make the CMake Project to generate all dynamic link libraries code with c++. top cmake is the CMakeLists.txt in the root path of this repo.
 2. `python3 init.py` to generate *_ui.py and *_rc.py from *.ui and *.qrc.
 3. `python3 main.py` to start sandbox.
-
+4. if you use Clion, just use "before launch" option in configuration of `main.py`, add an event "Run Another configuration" and choose `init.py`, ensures that `init.py` is automatically executed first each time when `main.py` is executed
 ### Bugs
 1. 在windows平台上加载dll可能会遇到一些问题,注意dll必须是amd64架构的,使用功能clion的开发者在配置工具链时要注意.
 2. 目前windows平台上的log会使用gbk编码.可能在某些情况下你会看到log文件中的内容是乱码,只需要按照gbk编码打开即可.
