@@ -28,6 +28,9 @@ if __name__ == '__main__':
     # set up qt runtime env
     os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
+    XDG_CURRENT_DESKTOP = os.environ['XDG_CURRENT_DESKTOP']
+    if (XDG_CURRENT_DESKTOP.find('GNOME') != -1) or (XDG_CURRENT_DESKTOP.find('gnome') != -1):
+        os.environ['QT_QPA_PLATFORM'] = 'wayland'
     # start main procedure
     app = QApplication([])
     app.setWindowIcon(QIcon("EvisionSandbox/resources/Evision.ico"))  # 添加图标
