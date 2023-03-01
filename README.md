@@ -26,7 +26,9 @@
 ### Bugs
 1. 在windows平台上加载dll可能会遇到一些问题,注意dll必须是amd64架构的,使用功能clion的开发者在配置工具链时要注意.
 2. 目前windows平台上的log会使用gbk编码.可能在某些情况下你会看到log文件中的内容是乱码,只需要按照gbk编码打开即可.
-
+3. open camera by id-> "No such file or directory: 'v4l2-ctl'", 
+sudo apt install v4l-utils -> 'EvisionCamera' object has no attribute 'get_screensize'
+4. 
 ### References
 1. [gitignore模板](https://github.com/github/gitignore).
 2. [清华大学开源镜像站: pypi源](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)

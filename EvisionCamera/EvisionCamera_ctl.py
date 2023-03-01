@@ -354,13 +354,13 @@ class EvisionCamera(QWidget):
         """Adjusts the main window size
         """
         system = Utility.get_os()
-        if system == "linux":
-            w, h, _ = self.get_screensize()
-            wscale = 0.5
-            hscale = 0.7
-            self.resize(wscale * w, hscale * h)
-        else:
-            self.resize(800, 600)
+        # if system == "linux":
+        #     w, h, _ = self.get_screensize()
+        #     wscale = 0.5
+        #     hscale = 0.7
+        #     self.resize(wscale * w, hscale * h)
+        # else:
+        self.resize(800, 600)
 
     def set_param_default(self):
         """Sets all paramters to default.
